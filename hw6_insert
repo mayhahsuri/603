@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns = "http://www.w3.org/1999/xhtml">
+<head>
+<title>Project Form Validation and Database Update</title>
+<link href="HW3 copy.css" rel="stylesheet" type="text/css" />
+   </head>
+
+    <?php
+		  extract ( $_POST );
+	?>
+	
+	<h2>Thank you for adding the project
+		 <?php print ("$projectname")?> 
+		.</h2>
+   
+      <h3>The following information has been saved 
+          in our database:<h3><br />
+   
+      <table width="800" height="66" border = "5" cellpadding = "0" cellspacing = "12">
+         <tr>
+            <td width="73" bgcolor = "#ffffaa">Project ID </td>
+            <td width="72" bgcolor = "#ffffbb">Project Name</td>
+            <td width="160" bgcolor = "#ffffbb">Project Due Date</td>
+            <td width="103" bgcolor = "#ffffbb">Supervisor ID Number</td>
+         </tr>
+
+
+		 <?php print( "<td>$projectid</td>
+			   	  <td>$projectname</td>
+				  <td>$projectdd</td>
+				  <td>$supid</td>");
+            ?>
+			
+         </tr>
+      </table>
+   
+      <br /><br /><br />
+<?php
+		
+$host = "localhost";
+$dbusername = "msuri1";
+$dbpassword = "mayhah";
+$dbname = "msuri1";
+		  
+		$database = new mysqli($host, $dbusername, $dbpassword, $dbname);  
+	    // Check connection
+       if ($database->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+	if ($database) {
+  	echo 'connected';
+	} 	
+	else {
+  echo 'not connected';
+} 			  
+	    $row = $result->fetch_assoc();
+		$projectid = $row["ProjectID"]; 
+		
+		  
+$database->query("INSERT INTO Project (ProjectID,ProjectName,ProjectDueDate,SupervisorID) VALUES ('$projectid','$projectname','$projectdd','$supid')");
+		  $projectid = $database->insert_id;
+		  
+	  
+	    ?>
+	
+		  </html>
